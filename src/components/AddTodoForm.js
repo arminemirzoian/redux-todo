@@ -1,6 +1,6 @@
-import {useDispatch} from 'react-redux';
-import {addTodo} from "../redux/todoSlice";
-import {useRef} from "react";
+import { useDispatch } from 'react-redux';
+import { addTodo } from "../redux/todoSlice";
+import { useState } from "react";
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -17,17 +17,18 @@ const Button = styled.button`
 
 const AddTodoForm = () => {
 
-    const inputRef = useRef();
+    const [value, setValue] = useState('');
     const dispatch = useDispatch();
 
 
     const onSubmit = (event) => {
         event.preventDefault();
         dispatch(addTodo({
-            title: inputRef.current.value
+            title: value
         }));
-        inputRef.current.value = '';
+       setValue('')
     };
+
 
     return (
 
@@ -38,16 +39,16 @@ const AddTodoForm = () => {
                     maxWidth: '100%',
                 }}>
                 <TextField id="outlined-basic" variant="outlined"
+                           value={value}
                            placeholder='Add todo...'
                            size="normal"
                            color='success'
-                           ref={inputRef}
                            InputProps={{
                                endAdornment: <Button type='submit'>
                                    Add
                                </Button>
                            }}
-                />
+                           onChange={(event) => setValue(event.target.value)}/>
             </Box>
         </form>
     );
